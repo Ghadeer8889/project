@@ -39,7 +39,7 @@ input:focus{
 }
 #total{
     background-color: red;
-    padding: 5px , 2px;
+    padding: 5px  2px;
     border-radius: 3px;
 }
 #total::before{
@@ -82,4 +82,5 @@ th , td{
 }
 #deletall{
     margin: 20 10;
+
 }
