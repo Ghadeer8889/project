@@ -241,3 +241,36 @@ td { padding: 10px; border-bottom: 1px solid #333; }
 .btn-confirm { background: #a00 !important; }
 
 .btn-confirm:hover { background: #f00 !important; }
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* يسمح بسحب الجدول يميناً ويساراً على الموبايل */
+    -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 600px) {
+    .crud {
+        width: 95%; /* استغلال مساحة الشاشة كاملة */
+    }
+
+    .price {
+        flex-direction: column; /* جعل حقول الأسعار تحت بعضها بدلاً من بجانب بعضها */
+        gap: 5px;
+    }
+
+    .btnsearch {
+        flex-direction: column; /* أزرار البحث تحت بعضها */
+    }
+
+    .btnsearch button {
+        width: 100%;
+    }
+
+    input, button {
+        height: 45px; /* تكبير الأزرار لتسهيل الضغط بالإصبع */
+        font-size: 16px; /* منع المتصفح من عمل Zoom تلقائي عند الكتابة */
+    }
+    
+    table th, table td {
+        font-size: 12px; /* تصغير الخط قليلاً لتناسب الشاشة */
+        padding: 8px 4px;
+    }
+}
