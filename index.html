@@ -3,63 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CRUD System</title>
+    
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4359/4359295.png" type="image/x-icon">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="crud">
         <div class="head">
             <h2>CRUD</h2>
-            <p>prudact mangment system</p>
+            <p>Product Management System</p>
         </div>
+
         <div class="input">
-           <input type="text" id="title" placeholder="title">
-           <div class="price">
-            <input type="number" onkeyup="getTotal()" id="price" placeholder="price">
-            <input type="number" onkeyup="getTotal()" id="taxes" placeholder="taxes">
-            <input type="number" onkeyup="getTotal()" id="ads" placeholder="ads">
-            <input type="number" onkeyup="getTotal()" id="disscount" placeholder="disscount">
-            <small id="total"></small>
-           </div>
-           <input type="number" name="" id="count" placeholder="count">
-           <input type="text" id="category" placeholder="category">
-           <button id="submit">create</button>
+            <input type="text" id="title" placeholder="Title">
+            <small id="titleHint" class="hint-text">* Letters only</small>
+            
+            <div class="price">
+                <input type="number" onkeyup="getTotal()" id="price" placeholder="Price">
+                <input type="number" onkeyup="getTotal()" id="taxes" placeholder="Taxes">
+                <input type="number" onkeyup="getTotal()" id="ads" placeholder="Ads">
+                <input type="number" onkeyup="getTotal()" id="disscount" placeholder="Discount">
+                <small id="total"></small>
+            </div>
 
+            <input type="number" id="count" placeholder="Count">
+            <input type="text" id="category" placeholder="Category">
+            <small id="categoryHint" class="hint-text">* Letters only</small>
 
+            <button id="submit">Create <i class="fa-solid fa-plus"></i></button>
         </div>
+
         <div class="output">
             <div class="searchBlock">
-                <input onkeyup="searchDtat(this.value)" type="text" id="search" placeholder="search">
-                 <div class="btnsearch">
-                    <button id="searchTitle" onclick="getsearch(this.id)"> Seaerh by title</button>
-                    <button id="searchCtegory" onclick="getsearch(this.id)"> Search by category</button>
-                 </div>
+                <input onkeyup="searchDtat(this.value)" type="text" id="search" placeholder="Search">
+                
+                <div class="btnsearch">
+                    <button id="searchTitle" onclick="getsearch(this.id)">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search by Title
+                    </button>
+                    <button id="searchCtegory" onclick="getsearch(this.id)">
+                        <i class="fa-solid fa-filter"></i> Search by Category
+                    </button>
+                </div>
             </div>
 
-            <div id="deletall">
+            <div id="deletall"></div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Taxes</th>
+                            <th>Ads</th>
+                            <th>Discount</th>
+                            <th>Total</th>
+                            <th>Category</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        </tbody>
+                </table>
             </div>
-            <table>
-                <tr>
-                    <th>id</th>
-                    <th>title</th>
-                    <th>price</th>
-                    <th>taxes</th>
-                    <th>ads</th>
-                    <th>disscount</th>
-                    <th>total</th>
-                    <th>category</th>
-                    <th>update</th>
-                    <th>delet</th>
-
-
-                </tr>
-                <tbody id="tbody">
-                  
-                </tbody>
-            </table>
         </div>
     </div>
-
-<script src="main.js"></script>    
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h3>Are you sure?</h3>
+        </div>
+        <p>Do you really want to delete this? This action cannot be undone.</p>
+        <div class="modal-buttons">
+            <button id="cancelBtn" class="btn-cancel">Cancel</button>
+            <button id="confirmBtn" class="btn-confirm">Delete</button>
+        </div>
+    </div>
+</div>
+    <script src="main.js"></script>    
 </body>
 </html>
