@@ -1,35 +1,41 @@
-/* 1. التنسيقات العامة */
-*{
+/* =========================================
+   1. التنسيقات العامة وجسم الصفحة
+   ========================================= */
+* {
     padding: 0;
     margin: 0;
-    box-sizing: border-box; /* تضمن أن البادينج لا يخرب العرض */
+    box-sizing: border-box;
 }
 
-body{
-    background-color: #1a1a1a; /* أغمق قليلاً لراحة العين */
+body {
+    background-color: #1a1a1a;
     color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 100px; /* لضمان ظهور المحتوى تحت الناف بار الثابت */
+    transition: background 0.3s, color 0.3s;
 }
 
-.crud{
-    width: 90%; /* زدت العرض قليلاً ليناسب الشاشات المتوسطة */
+.crud {
+    width: 90%;
     max-width: 1000px;
     margin: auto;
 }
 
-.head{
+/* =========================================
+   2. العناوين والمدخلات (Inputs)
+   ========================================= */
+.head {
     text-align: center;
     text-transform: uppercase;
-    margin: 30px 0;
+    margin-bottom: 30px;
 }
 
 .head h2 { font-size: 35px; letter-spacing: 2px; }
 .head p { color: #009688; margin-top: 5px; }
 
-/* 2. تنسيق المدخلات (Inputs) */
-input{
+input {
     width: 100%;
-    height: 40px; /* زدت الارتفاع لسهولة الكتابة */
+    height: 40px;
     outline: none;
     border: 1px solid transparent;
     background-color: #111;
@@ -40,22 +46,20 @@ input{
     transition: 0.3s all ease-in-out;
 }
 
-input:focus{
+input:focus {
     background: #000;
-    transform: scale(1.02); /* تقليل النسبة ليكون التكبير ناعم وغير مزعج */
+    transform: scale(1.01);
     border-color: #05165b;
     box-shadow: 0 0 10px rgba(5, 22, 91, 0.5);
 }
 
 .price {
     display: flex;
-    gap: 10px; /* مسافة بين مربعات الأسعار */
+    gap: 10px;
     margin: 10px 0;
 }
 
-.price input { width: 100%; }
-
-#total{
+#total {
     background-color: #a00;
     padding: 10px;
     border-radius: 5px;
@@ -63,12 +67,15 @@ input:focus{
     align-items: center;
     justify-content: center;
     min-width: 120px;
+    transition: 0.3s;
 }
 
-#total::before{ content: 'Total: '; font-weight: bold; margin-right: 5px; }
+#total::before { content: 'Total: '; font-weight: bold; margin-right: 5px; }
 
-/* 3. الأزرار (Buttons) */
-button{
+/* =========================================
+   3. الأزرار (العامة، البحث، والجدول)
+   ========================================= */
+button {
     width: 100%;
     height: 40px;
     border: none;
@@ -82,45 +89,60 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* مسافة بين الأيقونة والنص */
+    gap: 8px;
 }
 
-button i { transition: 0.3s; }
-
-button:hover i { transform: scale(1.3); } /* تكبير الأيقونة عند الهوفر */
-
-button:hover{
+button:hover {
     background: #050592b1;
     letter-spacing: 1px;
 }
 
-/* 4. قسم البحث */
-.btnsearch{
+.btnsearch {
     display: flex;
     gap: 15px;
     margin-top: 10px;
 }
+.btnsearch button { width: 50%; }
 
-.btnsearch button{ width: 50%; }
+/* أزرار الجدول (تعديل وحذف) */
+#tbody #update { background-color: #2e7d32 !important; width: 40px; height: 40px; border-radius: 50%; }
+#tbody #update:hover { background-color: #4caf50 !important; transform: scale(1.1); }
 
-/* تنسيق الزر النشط (Active Search) */
-.activeSearch {
-    background-color: #0a2596 !important;
-    border: 1px solid #fff !important;
-    box-shadow: 0 0 15px rgba(10, 37, 150, 0.6);
+#tbody #delet { background-color: #c62828 !important; width: 40px; height: 40px; border-radius: 50%; }
+#tbody #delet:hover { background-color: #f44336 !important; transform: scale(1.1); }
+
+#tbody td button { display: inline-flex !important; padding: 0; margin: 2px; }
+
+/* زر حذف الكل */
+#deletall button {
+    background-color: #a00 !important;
+    margin: 20px 0;
+    height: 45px;
+    font-size: 18px;
+}
+#deletall button:hover {
+    background-color: #f00 !important;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
 }
 
-/* 5. الجدول (Table) */
-.table-container { overflow-x: auto; } /* حماية من الشاشات الصغيرة */
+/* =========================================
+   4. الجدول (Table)
+   ========================================= */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 
-table{
+table {
     width: 100%;
     text-align: center;
     margin: 20px 0;
-    border-spacing: 0 10px; /* مسافة بين الصفوف */
+    border-spacing: 0 10px;
 }
 
-table th{
+table th {
     text-transform: uppercase;
     background: #05165b;
     padding: 12px;
@@ -128,79 +150,21 @@ table th{
 
 tbody tr { background: #222; transition: 0.3s; }
 tbody tr:hover { background: #292929; transform: scale(1.01); }
-
 td { padding: 10px; border-bottom: 1px solid #333; }
 
-/* 6. أزرار التحكم (Delete & Update) داخل الجدول */
-#update, #delet {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; /* أزرار دائرية */
-    margin: auto;
-}
-
-#update { background: #2e7d32; }
-#update:hover { background: #4caf50; }
-
-#delet { background: #c62828; }
-#delet:hover { background: #f44336; }
-
-/* 7. زر حذف الكل */
-#deletall button {
-    background-color: #a00;
-    margin: 20px 0;
-}
-
-#deletall button:hover {
-    background-color: #f00;
-    letter-spacing: 2px;
-}
-.error-msg {
-    border: 2px solid #ff0000 !important;
-    animation: shake 0.2s ease-in-out 0s 2;
-}
-
-/* حركة الاهتزاز للتنبيه */
-@keyframes shake {
-    0% { margin-left: 0rem; }
-    25% { margin-left: 0.5rem; }
-    75% { margin-left: -0.5rem; }
-    100% { margin-left: 0rem; }
-}
-
-/* إضافة نص توضيحي تحت الحقل (اختياري) */
-#title::placeholder {
-    color: #888;
-    font-size: 12px;
-}
-
-.invalid {
-    border: 1px solid #ff4d4d !important;
-    background-color: rgba(255, 77, 77, 0.1) !important;
-    animation: shake 0.3s ease-in-out;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
-}
-/* Modal Background */
+/* =========================================
+   5. المودال (Modal) والرسائل التحذيرية
+   ========================================= */
 .modal {
-    display: none; /* مخفي بالبداية */
+    display: none;
     position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    z-index: 11000;
+    left: 0; top: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px); /* تأثير ضبابي للخلفية */
-    align-items: center;
-    justify-content: center;
+    backdrop-filter: blur(5px);
+    align-items: center; justify-content: center;
 }
 
-/* Modal Content Box */
 .modal-content {
     background-color: #222;
     padding: 30px;
@@ -208,69 +172,69 @@ td { padding: 10px; border-bottom: 1px solid #333; }
     width: 90%;
     max-width: 400px;
     text-align: center;
-    border: 1px solid #444;
     transform: scale(0.7);
-    transition: 0.3s all ease-in-out;
+    transition: 0.3s;
 }
 
-/* Animation when showing */
-.modal.show-modal {
-    display: flex;
-}
-.modal.show-modal .modal-content {
-    transform: scale(1);
+.modal.show-modal { display: flex; }
+.modal.show-modal .modal-content { transform: scale(1); }
+
+.modal-header i { font-size: 50px; color: #ff4d4d; margin-bottom: 15px; }
+.modal-buttons { display: flex; gap: 15px; justify-content: center; }
+.modal-buttons button { width: 120px; border-radius: 8px; }
+
+.btn-cancel { background-color: #444 !important; }
+.btn-confirm { background-color: #c62828 !important; }
+
+/* التحقق من الأخطاء واهتزاز الحقول */
+.hint-text { display: block; color: #ff4d4d; font-size: 12px; margin-bottom: 5px; font-weight: bold; }
+
+.invalid {
+    border: 2px solid #ff4d4d !important;
+    background-color: rgba(255, 77, 77, 0.1) !important;
+    animation: shake 0.3s ease-in-out;
 }
 
-.modal-header i {
-    font-size: 50px;
-    color: #ff4d4d;
-    margin-bottom: 15px;
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
 }
 
-.modal-content p {
-    margin: 20px 0;
-    color: #ccc;
+/* =========================================
+   6. الأدوات الثابتة (Fixed) والوضع النهاري
+   ========================================= */
+.mode-btn {
+    position: fixed;
+    top: 12px; right: 20px; z-index: 10001;
+    width: 35px; height: 35px; border-radius: 50%;
+    border: 1px solid #ffffff55; background-color: transparent; color: #fff;
 }
 
-.modal-buttons {
-    display: flex;
-    gap: 10px;
+#toTopBtn {
+    display: none; position: fixed; bottom: 30px; right: 30px;
+    z-index: 9999; width: 40px; height: 40px; border-radius: 50%;
+    background-color: #0d6efd; color: white;
 }
+#toTopBtn.show-btn { display: flex !important; }
 
-.btn-cancel { background: #444 !important; }
-.btn-confirm { background: #a00 !important; }
+/* الوضع النهاري (Light Mode) */
+body.light-mode { background-color: #f4f4f4 !important; color: #111 !important; }
+body.light-mode .mode-btn { border-color: #333; color: #333; background-color: #fff; }
+body.light-mode input { background-color: #fff !important; color: #111 !important; border: 1px solid #ccc !important; }
+body.light-mode tbody tr { background: #fff; color: #111; }
+body.light-mode td { border-bottom: 1px solid #ddd; }
+body.light-mode table th { background: #0d6efd; color: #fff; }
+body.light-mode .modal-content { background-color: #fff !important; color: #111; border: 1px solid #ddd; }
+body.light-mode .modal-content h3, body.light-mode .modal-content p { color: #111 !important; }
+body.light-mode .btn-cancel { background-color: #bbb !important; color: #111 !important; }
 
-.btn-confirm:hover { background: #f00 !important; }
-.table-container {
-    width: 100%;
-    overflow-x: auto; /* يسمح بسحب الجدول يميناً ويساراً على الموبايل */
-    -webkit-overflow-scrolling: touch;
-}
+/* =========================================
+   7. الاستجابة (Responsive)
+   ========================================= */
 @media (max-width: 600px) {
-    .crud {
-        width: 95%; /* استغلال مساحة الشاشة كاملة */
-    }
-
-    .price {
-        flex-direction: column; /* جعل حقول الأسعار تحت بعضها بدلاً من بجانب بعضها */
-        gap: 5px;
-    }
-
-    .btnsearch {
-        flex-direction: column; /* أزرار البحث تحت بعضها */
-    }
-
-    .btnsearch button {
-        width: 100%;
-    }
-
-    input, button {
-        height: 45px; /* تكبير الأزرار لتسهيل الضغط بالإصبع */
-        font-size: 16px; /* منع المتصفح من عمل Zoom تلقائي عند الكتابة */
-    }
-    
-    table th, table td {
-        font-size: 12px; /* تصغير الخط قليلاً لتناسب الشاشة */
-        padding: 8px 4px;
-    }
+    .price { flex-direction: column; }
+    .btnsearch { flex-direction: column; }
+    .btnsearch button { width: 100%; }
+    .mode-btn { right: 60px; } /* لإبعاده عن قائمة الموبايل */
 }

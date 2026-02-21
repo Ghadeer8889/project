@@ -13,26 +13,21 @@ let mood = 'create';
 let tmp;
 
 // 2. التحقق من البيانات المحلية (Local Storage)
-let dataPro;
-if (localStorage.prodact != null) {
-    dataPro = JSON.parse(localStorage.prodact);
-} else {
-    dataPro = [];
-}
+let dataPro = localStorage.prodact ? JSON.parse(localStorage.prodact) : [];
 
 // 3. دالة حساب المجموع (Total)
 function getTotal() {
     if (price.value != '') {
         let result = (+price.value + +taxes.value + +ads.value) - +disscount.value;
         total.innerHTML = result;
-        total.style.background = "#2e7d32"; // أخضر هادئ
+        total.style.background = "#2e7d32"; // أخضر عند النجاح
     } else {
         total.innerHTML = '';
-        total.style.background = "#c62828"; // أحمر هادئ
+        total.style.background = "#c62828"; // أحمر عند الفراغ
     }
 }
 
-// 4. إنشاء وتحديث المنتجات (Create & Update)
+// 4. إنشاء وتحدث المنتجات
 submit.onclick = function() {
     let newPRO = {
         title: title.value.toLowerCase(),
@@ -48,49 +43,32 @@ submit.onclick = function() {
     let regexText = /^[a-zA-Z\s\u0600-\u06FF]+$/; 
     let isValid = true;
 
-    // تنظيف الكلاسات والتحقق البصري
+    // تنظيف الكلاسات
     [title, price, category].forEach(input => input.classList.remove('invalid'));
 
-    if (title.value == '' || !regexText.test(title.value)) {
-        title.classList.add('invalid');
-        isValid = false;
-    }
-    if (price.value == '') {
-        price.classList.add('invalid');
-        isValid = false;
-    }
-    if (category.value == '' || !regexText.test(category.value)) {
-        category.classList.add('invalid');
-        isValid = false;
-    }
+    if (title.value == '' || !regexText.test(title.value)) { title.classList.add('invalid'); isValid = false; }
+    if (price.value == '') { price.classList.add('invalid'); isValid = false; }
+    if (category.value == '' || !regexText.test(category.value)) { category.classList.add('invalid'); isValid = false; }
 
     if (isValid && newPRO.count < 101) {
         if (mood === 'create') {
             if (newPRO.count > 1) {
-                for (let i = 0; i < newPRO.count; i++) {
-                    dataPro.push(newPRO);
-                }
-            } else {
-                dataPro.push(newPRO);
-            }
+                for (let i = 0; i < newPRO.count; i++) { dataPro.push(newPRO); }
+            } else { dataPro.push(newPRO); }
         } else {
             dataPro[tmp] = newPRO;
-            mood = 'create';
-            submit.innerHTML = 'Create <i class="fa-solid fa-plus"></i>';
-            count.style.display = "block";
+            resetToCreate();
         }
-        
         localStorage.setItem('prodact', JSON.stringify(dataPro));
         clear();
         show();
     } else {
-        // الفوكس على أول حقل غير صالح
         let firstInvalid = document.querySelector('.invalid');
         if(firstInvalid) firstInvalid.focus();
     }
 }
 
-// 5. مسح المدخلات (Clear)
+// 5. مسح المدخلات
 function clear() {
     title.value = '';
     price.value = '';
@@ -100,12 +78,11 @@ function clear() {
     total.innerHTML = '';
     category.value = '';
     count.value = '';
-    total.style.background = "#c62828";
+    getTotal(); // لإعادة لون التوتال للأحمر
 }
 
-// 6. عرض البيانات (Read)
+// 6. عرض البيانات
 function show() {
-    getTotal();
     let table = '';
     for (let i = 0; i < dataPro.length; i++) {
         table += `
@@ -132,7 +109,7 @@ function show() {
     }
 }
 
-// 7. منطق التعديل (Update Logic)
+// 7. التعديل
 function updatedata(i) {
     title.value = dataPro[i].title;
     price.value = dataPro[i].price;
@@ -141,16 +118,20 @@ function updatedata(i) {
     disscount.value = dataPro[i].disscount;
     category.value = dataPro[i].category;
     getTotal();
-    
     count.style.display = 'none';
     submit.innerHTML = 'Update <i class="fa-solid fa-rotate"></i>';
     mood = 'update';
     tmp = i;
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// 8. نظام الحذف المخصص (Custom Modal Delete)
+function resetToCreate() {
+    mood = 'create';
+    submit.innerHTML = 'Create <i class="fa-solid fa-plus"></i>';
+    count.style.display = "block";
+}
+
+// 8. نظام الحذف (Modal)
 let modal = document.getElementById('customModal');
 let confirmBtn = document.getElementById('confirmBtn');
 let cancelBtn = document.getElementById('cancelBtn');
@@ -171,21 +152,22 @@ function delet(i) {
     showModal(() => {
         dataPro.splice(i, 1);
         localStorage.setItem('prodact', JSON.stringify(dataPro));
+        if (mood === 'update' && tmp === i) resetToCreate();
         show();
     });
 }
 
 function deletAll() {
     showModal(() => {
-        localStorage.clear();
-        dataPro.splice(0);
+        localStorage.prodact = JSON.stringify([]);
+        dataPro = [];
+        resetToCreate();
         show();
     });
 }
 
-// 9. البحث (Search)
+// 9. البحث
 let searchMood = 'title';
-
 function getsearch(id) {
     let search = document.getElementById('search');
     searchMood = (id == 'searchTitle') ? 'title' : 'category';
@@ -199,12 +181,9 @@ function searchDtat(value) {
     let table = '';
     let val = value.toLowerCase();
     for (let i = 0; i < dataPro.length; i++) {
-        let match = (searchMood == 'title') ? 
-                    dataPro[i].title.includes(val) : 
-                    dataPro[i].category.includes(val);
+        let match = (searchMood == 'title') ? dataPro[i].title.includes(val) : dataPro[i].category.includes(val);
         if (match) {
-            table += `
-            <tr>
+            table += `<tr>
                 <td>${i + 1}</td>
                 <td>${dataPro[i].title}</td>
                 <td>${dataPro[i].price}</td>
@@ -221,19 +200,40 @@ function searchDtat(value) {
     document.getElementById('tbody').innerHTML = table;
 }
 
-// 10. مستمعات الأحداث (Input Observers)
-[title, category].forEach(input => {
-    input.oninput = function() {
-        this.value = this.value.replace(/[0-9]/g, '');
-        this.style.border = (this.value === '') ? "1px solid red" : "1px solid #05165b";
-    }
-});
+// 10. الوضع الليلي (Dark Mode) والحفظ في الذاكرة
+let darkModeToggle = document.getElementById("darkModeToggle");
+let modeIcon = document.getElementById("modeIcon");
 
-[title, price, category].forEach(input => {
-    input.addEventListener('input', function() {
-        if (this.value != '') this.classList.remove('invalid');
-    });
-});
+// فحص الحالة المخزنة مسبقاً
+if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light-mode");
+    modeIcon.classList.replace("fa-moon", "fa-sun");
+}
+
+darkModeToggle.onclick = function() {
+    document.body.classList.toggle("light-mode");
+    if (document.body.classList.contains("light-mode")) {
+        modeIcon.classList.replace("fa-moon", "fa-sun");
+        localStorage.setItem("theme", "light");
+    } else {
+        modeIcon.classList.replace("fa-sun", "fa-moon");
+        localStorage.setItem("theme", "dark");
+    }
+};
+
+// 11. زر العودة للأعلى (Back to Top)
+let mybutton = document.getElementById("toTopBtn");
+window.onscroll = function() {
+    if (document.documentElement.scrollTop > 300) {
+        mybutton.classList.add("show-btn");
+    } else {
+        mybutton.classList.remove("show-btn");
+    }
+};
+
+function backToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 // تشغيل العرض الأولي
 show();

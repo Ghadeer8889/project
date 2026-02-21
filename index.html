@@ -4,16 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD System</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4359/4359295.png" type="image/x-icon">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <button id="darkModeToggle" class="mode-btn">
+        <i id="modeIcon" class="fa-solid fa-moon"></i>
+    </button>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="https://cdn-icons-png.flaticon.com/512/4359/4359295.png" alt="Logo" width="30" height="30" style="margin-right: 15px;">
+                <span>CRUD System</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="crud">
         <div class="head">
@@ -43,7 +63,6 @@
         <div class="output">
             <div class="searchBlock">
                 <input onkeyup="searchDtat(this.value)" type="text" id="search" placeholder="Search">
-                
                 <div class="btnsearch">
                     <button id="searchTitle" onclick="getsearch(this.id)">
                         <i class="fa-solid fa-magnifying-glass"></i> Search by Title
@@ -72,25 +91,30 @@
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody">
-                        </tbody>
+                    <tbody id="tbody"></tbody>
                 </table>
             </div>
         </div>
     </div>
-<div id="customModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <h3>Are you sure?</h3>
-        </div>
-        <p>Do you really want to delete this? This action cannot be undone.</p>
-        <div class="modal-buttons">
-            <button id="cancelBtn" class="btn-cancel">Cancel</button>
-            <button id="confirmBtn" class="btn-confirm">Delete</button>
+
+    <div id="customModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h3>Are you sure?</h3>
+            </div>
+            <p>Do you really want to delete this? This action cannot be undone.</p>
+            <div class="modal-buttons">
+                <button id="cancelBtn" class="btn-cancel">Cancel</button>
+                <button id="confirmBtn" class="btn-confirm">Delete</button>
+            </div>
         </div>
     </div>
-</div>
+
+    <button id="toTopBtn" onclick="backToTop()" title="Go to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
     <script src="main.js"></script>    
 </body>
 </html>
