@@ -232,9 +232,64 @@ body.light-mode .btn-cancel { background-color: #bbb !important; color: #111 !im
 /* =========================================
    7. الاستجابة (Responsive)
    ========================================= */
+/* --- إصلاح الناف بار للموبايل --- */
 @media (max-width: 600px) {
-    .price { flex-direction: column; }
-    .btnsearch { flex-direction: column; }
-    .btnsearch button { width: 100%; }
-    .mode-btn { right: 60px; } /* لإبعاده عن قائمة الموبايل */
+    body {
+        padding-top: 140px; /* زيادة المسافة لأن الناف بار قد يأخذ سطرين في الموبايل */
+    }
+
+    .crud {
+        width: 95%; /* توسيع الحاوية قليلاً للموبايل */
+    }
+
+    .head h2 {
+        font-size: 24px; /* تصغير العنوان ليناسب الشاشة */
+    }
+
+    /* جعل أزرار البحث تحت بعضها */
+    .btnsearch {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .btnsearch button {
+        width: 100%;
+    }
+
+    /* موازنة أزرار التحكم الثابتة */
+    .mode-btn {
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+    }
+
+    /* إخفاء بعض الأعمدة غير الضرورية في الجداول الصغيرة جداً (اختياري) */
+    /* يمكنك جعل الجدول قابل للسحب يميناً ويساراً وهو الحل الأفضل */
+    .table-container {
+        overflow-x: auto;
+        display: block;
+        width: 100%;
+    }
+
+    table {
+        min-width: 600px; /* يضمن عدم تداخل الكلام وظهور شريط سحب */
+    }
+}
+
+/* ضمان أن الناف بار دائماً في الأعلى */
+.head {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: inherit; /* يأخذ نفس لون خلفية الـ body */
+    z-index: 1000;
+    padding: 10px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+body.light-mode .head {
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
